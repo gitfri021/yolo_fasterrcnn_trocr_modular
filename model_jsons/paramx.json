@@ -1,0 +1,37 @@
+{
+    "models": {
+      "yolov8": {
+        "model_weights":"/home/frinksserver/subhra/yolo_trocr_modular/model_weights/model_best.pth",
+        "det_th": 0.7,
+        "iou_th": 0.4
+      },
+      "fasterrcnn": {
+        "model_weights":"/home/frinksserver/subhra/yolo_trocr_modular/model_weights/fasterrcnn_model_best.pth",
+        "det_th": 0.8,
+        "iou_th": 0.4
+      }
+    },
+
+    "ocr_models": {
+        "trocr": {
+          "model_weights":"/home/frinksserver/subhra/yolo_trocr_modular/model_weights/trocr/checkpoint-15510",
+          "MODEL_NAME": "microsoft/trocr-base-printed"
+
+        }
+      },
+        
+    "classes":["text"],
+    "video_dir":null,
+    "image_dir":"/home/frinksserver/Downloads/junskh",
+
+    "custom_name":"ocr_skh_base_jun19_junskhold",
+    "use_model":"fasterrcnn",
+    "use_ocr_model":"trocr",
+
+    "output_dir":"./results",
+    "lowfpsvid":false
+
+
+
+
+}
