@@ -5,7 +5,8 @@ import json
 import time 
 from models.yolov8_model import YoloV8
 from models.fasterrcnn_inference import FasterRCNN
-from models.trocr_inference import TROCR
+# from models.trocr_inference import TROCR
+from models.paddleocr.tools.infer.predict_rec import PaddleOCRx
 
 import argparse
 import traceback
@@ -26,12 +27,20 @@ def dirchecks(file_path):
         print(f"[INFO] {datetime.datetime.now()}: Found this directory:\n{file_path}.\n")
 
 
-def save_cropped_image(image, crop_box, output_dir, base_name, crop_index):
+def save_cropped_image(image, crop_box, output_dir, base_name, crop_index, extra_pixels=20):
     x1, y1, x2, y2 = crop_box
+    
+    # Adjust the bounding box with extra pixels
+    x1 = max(0, x1 - 5)
+    y1 = max(0, y1 - 5)
+    x2 = min(image.shape[1], x2 + extra_pixels)
+    y2 = min(image.shape[0], y2 + 5)
+    
     crop_img = image[y1:y2, x1:x2]
     crop_filename = os.path.join(output_dir, f"{base_name}_crop_{crop_index}.png")
     cv2.imwrite(crop_filename, crop_img)
     print(f"[INFO] {datetime.datetime.now()}: Cropped image saved at {crop_filename}")
+
 
 
 def plot_results(img, boxes, class_names, scores, det_th, classes, ocr_model, crop_output_dir, img_name, results_file):
@@ -202,9 +211,11 @@ def main(params):
 
     print(f"[INFO] {datetime.datetime.now()}: Text Detection Model Loading Completed!!!\n")
 
-    if params["use_ocr_model"] == "trocr":
-        ocr_model = TROCR(model_weights=params["ocr_models"]["trocr"]["model_weights"], MODEL_NAME=params["ocr_models"]["trocr"]["MODEL_NAME"])
-    elif params["use_ocr_model"] is None:
+    # if params["use_ocr_model"] == "trocr":
+    #     ocr_model = TROCR(model_weights=params["ocr_models"]["trocr"]["model_weights"], MODEL_NAME=params["ocr_models"]["trocr"]["MODEL_NAME"])
+    if params["use_ocr_model"] == "paddleocr":
+        ocr_model = PaddleOCRx(model_weights=params["ocr_models"]["paddleocr"]["model_weights"])
+    else:
         ocr_model = None
 
     print(f"[INFO] {datetime.datetime.now()}: OCR Model Loading Completed!!!\n" if params["use_ocr_model"] is not None else f"[INFO] {datetime.datetime.now()}: NO OCR model!!! working with text detection only \n")

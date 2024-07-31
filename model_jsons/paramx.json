@@ -1,12 +1,12 @@
 {
     "models": {
       "yolov8": {
-        "model_weights":"/home/frinksserver/subhra/yolo_trocr_modular/model_weights/model_best.pth",
+        "model_weights":"/home/frinksserver/Deepak/ultimate_training_utils/yolov8/training_backup/honda_ocr2/weights/best.pt",
         "det_th": 0.7,
         "iou_th": 0.4
       },
       "fasterrcnn": {
-        "model_weights":"/home/frinksserver/subhra/yolo_trocr_modular/model_weights/fasterrcnn_model_best.pth",
+        "model_weights":"./model_weights/fasterrcnn_ocr_skh_jul24.pth",
         "det_th": 0.8,
         "iou_th": 0.4
       }
@@ -17,16 +17,21 @@
           "model_weights":"/home/frinksserver/subhra/yolo_trocr_modular/model_weights/trocr/checkpoint-15510",
           "MODEL_NAME": "microsoft/trocr-base-printed"
 
+        },
+        "paddleocr": {
+          "model_weights":"./model_weights/paddleocr/"
+          
+
         }
       },
         
     "classes":["text"],
     "video_dir":null,
-    "image_dir":"/home/frinksserver/Downloads/junskh",
+    "image_dir":"/home/frinksserver/Downloads/RH-OCR-L1/RH-OCR/",
 
-    "custom_name":"ocr_skh_base_jun19_junskhold",
+    "custom_name":"ocr_skh_jul23_aftertrain",
     "use_model":"fasterrcnn",
-    "use_ocr_model":"trocr",
+    "use_ocr_model":"paddleocr",
 
     "output_dir":"./results",
     "lowfpsvid":false
